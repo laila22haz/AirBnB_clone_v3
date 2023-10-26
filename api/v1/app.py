@@ -2,10 +2,11 @@
 from flask import Flask
 from models import storage
 from api.v1.views import app_views
-from flask import Blueprint
+from os import getenv
 
 app = Flask(__name__)
-app_views = Blueprint('app_views ', __name__)
+app.register_blueprint(app_views)
+
 
 @app.teardown_appcontext
 def close_storage(exeption):
@@ -13,4 +14,6 @@ def close_storage(exeption):
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port='5000', threaded=True)
+    host = '0.0.0.0' if not getenv('HBNB_API_HOST') else getenv('HBNB_API_HOST')
+    port = 5000 if not getenv('HBNB_API_PORT') else int(getenv('HBNB_API_PORT'))
+    app.run(host=host, port=port, threaded=True)
