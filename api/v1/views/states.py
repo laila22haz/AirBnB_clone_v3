@@ -31,7 +31,7 @@ def delete_state(state_id):
     else:
         storage.delete(state)
         storage.save()
-        return jsonify({}, status=200)
+        return jsonify({}, 200)
 
 @app_views.route('/api/v1/states', methods=['POST'])
 def create_state():
@@ -43,5 +43,17 @@ def create_state():
     new_state = State(request_data['name'])
     storage.new(new_state)
     storage.save()
-    return jsonify(new_state.to_dict, status=201)
+    return jsonify(new_state.to_dict, 201)
 
+@app_views.route('/api/v1/states/<state_id>', methods=['PUT'])
+def create_state(state_id):
+    state = storage.get(State, state_id)
+    if state is None:
+        abort(404)
+    request_data = request.get_json()
+    if not request_data:
+        abort(400, 'Not a JSON')
+    if 'name' in request_data:
+        state.name = request.get_json()['name']
+        storage.save()
+    return jsonify(state.to_dict, 200)
