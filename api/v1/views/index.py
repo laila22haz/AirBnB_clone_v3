@@ -9,10 +9,10 @@ from models.review import Review
 from models.state import State
 from models.user import User
 
+
 @app_views.route('/stats', methods=['GET'])
 def count_stats():
     """retrieves the number of each objects by type"""
-
     return jsonify({
         "amenities": storage.count(Amenity),
         "cities": storage.count(City),
