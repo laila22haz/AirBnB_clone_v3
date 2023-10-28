@@ -85,8 +85,8 @@ class DBStorage:
         return None
 
     def count(self, cls=None):
+        """ dic file"""
         if cls is None:
             return len(self.all())
         else:
             return len(self.all(cls))
-
