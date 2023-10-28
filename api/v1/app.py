@@ -1,15 +1,18 @@
 #!/usr/bin/python3
+"""app file"""
 from os import getenv
-from flask import Flask, make_response, jsonify
+from flask import Flask, make_response, jsonify, Blueprint
 from models import storage
 from api.v1.views import app_views
 
 app = Flask(__name__)
+
 app.register_blueprint(app_views)
 
 
 @app.teardown_appcontext
 def close_storage_exception(exception):
+    """handles teardown appcontext"""
     storage.close()
 
 
