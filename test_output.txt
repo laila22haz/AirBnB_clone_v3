@@ -1,0 +1,62 @@
+/usr/local/lib/python3.8/dist-packages/pep8.py:110: FutureWarning: Possible nested set at position 1
+  EXTRANEOUS_WHITESPACE_REGEX = re.compile(r'[[({] | []}),;:]')
+..............F.......................F..ssssss.FF....FF........................................................
+======================================================================
+FAIL: test_datetime_attributes (test_models.test_base_model.TestBaseModel)
+Test that two BaseModel instances have different datetime objects
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/AirBnB_clone_v3/tests/test_models/test_base_model.py", line 88, in test_datetime_attributes
+    self.assertTrue(tic <= inst1.created_at <= toc)
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_dbs_func_docstrings (test_models.test_engine.test_db_storage.TestDBStorageDocs)
+Test for the presence of docstrings in DBStorage methods
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/AirBnB_clone_v3/tests/test_models/test_engine/test_db_storage.py", line 65, in test_dbs_func_docstrings
+    self.assertIsNot(func[1].__doc__, None,
+AssertionError: unexpectedly identical: None : count method needs a docstring
+
+======================================================================
+FAIL: test_count (test_models.test_engine.test_file_storage.TestFileStorage)
+Test that count properly counts all objects
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/AirBnB_clone_v3/tests/test_models/test_engine/test_file_storage.py", line 130, in test_count
+    self.assertEqual(nobjs, storage.count())
+AssertionError: 7 != None
+
+======================================================================
+FAIL: test_get (test_models.test_engine.test_file_storage.TestFileStorage)
+Test that get properly returns a requested object
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/AirBnB_clone_v3/tests/test_models/test_engine/test_file_storage.py", line 123, in test_get
+    self.assertEqual(user, storage.get("User", user.id))
+AssertionError: <models.user.User object at 0x7f1315376fd0> != None
+
+======================================================================
+FAIL: test_fs_func_docstrings (test_models.test_engine.test_file_storage.TestFileStorageDocs)
+Test for the presence of docstrings in FileStorage methods
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/AirBnB_clone_v3/tests/test_models/test_engine/test_file_storage.py", line 65, in test_fs_func_docstrings
+    self.assertIsNot(func[1].__doc__, None,
+AssertionError: unexpectedly identical: None : count method needs a docstring
+
+======================================================================
+FAIL: test_pep8_conformance_file_storage (test_models.test_engine.test_file_storage.TestFileStorageDocs)
+Test that models/engine/file_storage.py conforms to PEP8.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/AirBnB_clone_v3/tests/test_models/test_engine/test_file_storage.py", line 37, in test_pep8_conformance_file_storage
+    self.assertEqual(result.total_errors, 0,
+AssertionError: 1 != 0 : Found code style errors (and warnings).
+
+----------------------------------------------------------------------
+Ran 112 tests in 2.295s
+
+FAILED (failures=6, skipped=6)
+{'id': 'bb1b9f0c-2060-431e-9032-2ff72e0c6102', 'created_at': datetime.datetime(2023, 10, 28, 15, 22, 44, 315430), 'updated_at': datetime.datetime(2023, 10, 28, 15, 22, 44, 315430)}
