@@ -11,6 +11,14 @@ from models.state import State
 from models.user import User
 
 
+@app_views.route('/status', methods=['GET'])
+def get_status():
+    """Retrive response status"""
+    return jsonify({
+        'status': 'OK'
+    })
+
+
 @app_views.route('/stats', methods=['GET'])
 def count_stats():
     """retrieves the number of each objects by type"""
