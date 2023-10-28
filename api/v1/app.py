@@ -3,6 +3,7 @@ from flask import Flask
 from models import storage
 from api.v1.views import app_views
 from os import getenv
+from flask import make_response
 from flask import Flask, jsonify
 
 app = Flask(__name__)
@@ -17,9 +18,9 @@ def close_storage(exeption):
 @app.errorhandler(404)
 def page_not_found(error):
     """“404 page”, a “Not found"""
-    return jsonify({
+    return make_response(jsonify({
         "error": "Not found"
-        }), 404
+        }), 404)
 
 
 if __name__ == "__main__":
