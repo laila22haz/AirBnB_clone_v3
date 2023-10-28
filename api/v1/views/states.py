@@ -46,7 +46,7 @@ def create_state():
     return jsonify(new_state.to_dict, 201)
 
 @app_views.route('/api/v1/states/<state_id>', methods=['PUT'])
-def create_state(state_id):
+def update_state(state_id):
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
