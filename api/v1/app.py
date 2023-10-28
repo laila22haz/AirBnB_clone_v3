@@ -18,14 +18,11 @@ def teardown(exception):
 
 @app.errorhandler(404)
 def page_not_found(error):
-    """
-    Handler for 404 errors.
-    Returns a response indicating 'Not found'.
-    """
+    """Handler for 404 errors"""
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 
 if __name__ == "__main__":
-    host = '0.0.0.0' if not getenv('HBNB_API_HOST') else getenv('HBNB_API_HOST')
-    port = 5000 if not getenv('HBNB_API_PORT') else int(getenv('HBNB_API_PORT'))
+    host = getenv('HBNB_API_HOST', "0.0.0.0")
+    port = int(getenv('HBNB_API_PORT', "0.0.0.0"))
     app.run(host=host, port=port, threaded=True)
