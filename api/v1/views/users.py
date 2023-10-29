@@ -1,0 +1,73 @@
+#!/usr/bin/python3
+""" state doc"""
+
+from models.base_model import BaseModel
+from models import storage
+from flask import jsonify, abort, request
+from api.v1.views import app_views
+from models.state import State
+from models.user import User
+
+
+@app_views.route('/users', methods=['GET'], strict_slashes=False)
+def all_users():
+    """doc fuction"""
+    users_list = []
+    users = storage.all(User).values()
+    for user in users:
+        users_list.append(user.to_dict())
+    return jsonify(users_list)
+
+
+@app_views.route('users/<user_id>', methods=['GET'], strict_slashes=False)
+def get_user(user_id):
+    """get users"""
+    user = storage.get(User, user_id)
+    if user is None:
+        abort(404)
+    else:
+        return jsonify(user.to_dict())
+
+
+@app_views.route('/users/<user_id>', methods=['DELETE'],
+                 strict_slashes=False)
+def delete_state(user_id):
+    """ doc delete"""
+    user = storage.get(State, user_id)
+    if user is None:
+        abort(404)
+    else:
+        storage.delete(user)
+        storage.save()
+        return jsonify({}), 200
+
+
+@app_views.route('/users', methods=['POST'], strict_slashes=False)
+def create_state():
+    """doc create"""
+    request_data = request.get_json()
+    if not request_data:
+        abort(400, 'Not a JSON')
+    if 'email' not in request_data:
+        abort(400, 'Missing email')
+    if 'password' not in request_data:
+        abort(400, 'Missing password')
+    new_user = State(request_data['name'])
+    storage.new(new_user)
+    storage.save()
+    return jsonify(new_user.to_dict()), 201
+
+
+@app_views.route('/users/<user_id>', methods=['PUT'], strict_slashes=False)
+def update_user(user_id):
+    """doc update"""
+    user = storage.get(User, user_id)
+    if user is None:
+        abort(404)
+    request_data = request.get_json()
+    if not request_data:
+        abort(400, 'Not a JSON')
+    if 'password' in request_data:
+        user.password = request_data['password']
+        storage.save()
+    return jsonify(user.to_dict()), 200
