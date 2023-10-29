@@ -43,7 +43,7 @@ def delete_user(user_id):
 
 
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
-def create_state():
+def create_user():
     """doc create"""
     request_data = request.get_json()
     if not request_data:
