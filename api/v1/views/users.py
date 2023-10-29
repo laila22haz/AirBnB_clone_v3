@@ -3,7 +3,7 @@
 
 from models.base_model import BaseModel
 from models import storage
-from flask import jsonify, abort, request
+from flask import jsonify, abort, request, make_response
 from api.v1.views import app_views
 from models.state import State
 from models.user import User
@@ -61,13 +61,16 @@ def create_state():
 @app_views.route('/users/<user_id>', methods=['PUT'], strict_slashes=False)
 def update_user(user_id):
     """doc update"""
+    put_req = request.get_json()
+    if not put_req:
+        abort(400, "Not a JSON")
     user = storage.get(User, user_id)
-    if user is None:
+    if not user:
         abort(404)
-    request_data = request.get_json()
-    if not request_data:
-        abort(400, 'Not a JSON')
-    if 'password' in request_data:
-        user.password = request_data['password']
-        storage.save()
-    return jsonify(user.to_dict()), 200
+    ignore_keys = ['id', 'email', 'created_at', 'updated_at']
+
+    for key, value in put_req.items():
+        if key not in ignore_keys:
+            setattr(user, key, value)
+    storage.save()
+    return make_response(user.to_dict(), 200)
