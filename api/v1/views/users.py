@@ -31,7 +31,7 @@ def get_user(user_id):
 
 @app_views.route('/users/<user_id>', methods=['DELETE'],
                  strict_slashes=False)
-def delete_state(user_id):
+def delete_user(user_id):
     """ doc delete"""
     user = storage.get(User, user_id)
     if user is None:
@@ -52,7 +52,7 @@ def create_state():
         abort(400, 'Missing email')
     if 'password' not in request_data:
         abort(400, 'Missing password')
-    new_user = User(request_data['email', 'password'])
+    new_user = User(**request_data)
     storage.new(new_user)
     storage.save()
     return jsonify(new_user.to_dict()), 201
