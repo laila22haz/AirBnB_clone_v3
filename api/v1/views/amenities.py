@@ -57,18 +57,20 @@ def create_amenity():
     storage.save()
     return jsonify(new_amenity.to_dict()), 201
 
-
-@app_views.route('/amenities/<amenity_id>', methods=['PUT'],
-                 strict_slashes=False)
-def update_amenity(amenity_id):
-    """Updates a Amenity object"""
+@app_views.route('/amenities/<amenity_id>',
+                 methods=['PUT'], strict_slashes=False)
+def put_amenity(amenity_id):
+    """Update the amenity object with the provided id"""
+    put_req = request.get_json()
+    if not put_req:
+        abort(400, "Not a JSON")
     amenity = storage.get(Amenity, amenity_id)
-    if amenity is None:
+    if not amenity:
         abort(404)
-    request_data = request.get_json()
-    if not request_data:
-        abort(400, 'Not a JSON')
-    if 'name' in request_data:
-        amenity.name = request.get_json()['name']
-        storage.save()
-    return jsonify(amenity.to_dict()), 200
+    ignore_keys = ['id', 'created_id', 'updated_at']
+
+    for key, value in put_req.items():
+        if key not in ignore_keys:
+            setattr(amenity, key, value)
+    storage.save()
+    return make_response(amenity.to_dict(), 200)
