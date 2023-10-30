@@ -4,8 +4,8 @@
 from flask import jsonify, abort, make_response, request
 from models import storage
 from models.amenity import Amenity
-from models.state import State
 from api.v1.views import app_views
+from models.base_model import BaseModel
 
 
 @app_views.route('/amenities', methods=['GET'],
@@ -19,7 +19,7 @@ def all_amenities():
     return jsonify(amenities_list)
 
 
-@app_views.route('amenities/<amenity_id>', methods=['GET'],
+@app_views.route('/amenities/<amenity_id>', methods=['GET'],
                  strict_slashes=False)
 def get_amenity(amenity_id):
     """Retrieves a Amenity object"""
