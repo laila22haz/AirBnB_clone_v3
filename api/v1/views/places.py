@@ -52,8 +52,11 @@ def place_post(city_id):
         abort(400, "Not a JSON")
     if "user_id" not in req:
         abort(400, "Missing user_id")
-    user = storage.get(User, req['user_id'])
-    if user is None:
+    user_id = req['user_id']
+
+    __user = storage.get(User, user_id)
+    __city = storage.get(City, city_id)
+    if not __user or not __city:
         abort(404)
     if "name" not in req:
         abort(400, "Missing name")
