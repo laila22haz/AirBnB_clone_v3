@@ -13,7 +13,7 @@ from models.city import City
 
 @app_views.route("/cities/<city_id>/places",
                  methods=["GET"], strict_slashes=False)
-def all_cities(city_id):
+def all_places(city_id):
     """Retrieves the list of all City objects of a State"""
     city = storage.get(City, city_id)
     if city is None:
